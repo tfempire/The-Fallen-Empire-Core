@@ -53,6 +53,27 @@ public class InputProcessor {
 				TFE.quit();
 				break;
 				
+			case "exit":
+				TFE.quit();
+				break;
+				
+			case "stop":
+				TFE.quit();
+				break;
+				
+			case "mysql start":
+				TFE.initMySQL();
+				break;
+				
+			case "mysql stop":
+				TFE.closeMySQL();
+				break;
+				
+			case "mysql restart":
+				TFE.closeMySQL();
+				TFE.initMySQL();
+				break;
+				
 			default:
 				break;
 		
