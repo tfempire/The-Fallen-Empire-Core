@@ -34,12 +34,17 @@
 
 package re.fallenempi.tfe_core;
 
+import re.fallenempi.tfe_core.config.Config;
+import re.fallenempi.tfe_core.database.MySQL;
 import re.fallenempi.tfe_core.input.InputReader;
 
 public class Core {
 	
-	public Boolean DEBUG = true;
+	public Boolean DEBUG = false;
+	public Boolean MYSQL = false;
 	
+	public Config config;
+	public MySQL DB;
 	public InputReader IR;
 	public Server server;
 	
@@ -48,8 +53,15 @@ public class Core {
 	}
 	
 	public Core() {
+		config = new Config(this);
+		DB = new MySQL(this);
+		
+		DEBUG = config.getBool("Debug");
+		
 		IR = new InputReader(this);
 		server = new Server(this);
+		
+		initMySQL();
 		
 		IR.start();
 		server.start();
@@ -60,6 +72,35 @@ public class Core {
 		server.stop();
 		
 		System.exit(0);
+	}
+	
+	//Manage MySQL connection
+	public void initMySQL() {
+		if(MYSQL) {
+			//Log: Could not init MySQL connection. Already established. Type "mysql restart" to restart.
+			
+			return;
+		}
+		
+		try {
+			//Log: Establishing connection
+			
+			DB.connect();
+		} catch(Exception ex) {
+			//Log: Could not connect;
+			
+			MYSQL = false;
+		}
+	}
+	
+	public void closeMySQL() {
+		if(!MYSQL) {
+			//Log: Could not close connection, no connection established.
+			
+			return;
+		}
+		
+		DB.close();
 	}
 
 }
