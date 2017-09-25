@@ -32,22 +32,18 @@
  * 
  */
 
-package re.fallenempi.tfe_core.event;
-
+package re.fallenempi.tfe_core.util.log;
 
 import re.fallenempi.tfe_core.Core;
 
-public class ChatEvent extends Event {
-	
+public class ChatLog extends Log {
+
 	Core TFE;
 	
-	public ChatEvent(Core TFE) {
+	public ChatLog(Core TFE) {
+		super("chat");
+		
 		this.TFE = TFE;
 	}
 	
-	public void execute() {
-		TFE.log.chat.info(data.get("message").textValue());
-		TFE.server.get().getBroadcastOperations().sendEvent("chat", data);
-	}
-
 }

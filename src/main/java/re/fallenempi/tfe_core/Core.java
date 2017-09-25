@@ -37,12 +37,14 @@ package re.fallenempi.tfe_core;
 import re.fallenempi.tfe_core.config.Config;
 import re.fallenempi.tfe_core.database.MySQL;
 import re.fallenempi.tfe_core.input.InputReader;
+import re.fallenempi.tfe_core.util.LogUtil;
 
 public class Core {
 	
 	public Boolean DEBUG = false;
 	public Boolean MYSQL = false;
 	
+	public LogUtil log;
 	public Config config;
 	public MySQL DB;
 	public InputReader IR;
@@ -53,6 +55,7 @@ public class Core {
 	}
 	
 	public Core() {
+		log = new LogUtil();
 		config = new Config(this);
 		DB = new MySQL(this);
 		

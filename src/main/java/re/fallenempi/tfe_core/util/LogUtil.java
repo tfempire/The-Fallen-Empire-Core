@@ -32,22 +32,34 @@
  * 
  */
 
-package re.fallenempi.tfe_core.event;
-
+package re.fallenempi.tfe_core.util;
 
 import re.fallenempi.tfe_core.Core;
+import re.fallenempi.tfe_core.util.log.ChatLog;
+import re.fallenempi.tfe_core.util.log.CoreLog;
 
-public class ChatEvent extends Event {
-	
+public class LogUtil {
+
 	Core TFE;
 	
-	public ChatEvent(Core TFE) {
-		this.TFE = TFE;
+	public CoreLog core;
+	public ChatLog chat;
+	
+	public LogUtil() {
+		core = new CoreLog(TFE);
+		chat = new ChatLog(TFE);
+
+		info("Test info log.");
+		warn("Test warn log.");
+		error("Test error log.");
+		debug("Test debug log.");
+		fatal("Test fatal log.");
 	}
 	
-	public void execute() {
-		TFE.log.chat.info(data.get("message").textValue());
-		TFE.server.get().getBroadcastOperations().sendEvent("chat", data);
-	}
-
+	public void info(String message) { core.info(message); }
+	public void warn(String message) { core.warn(message); }
+	public void error(String message) { core.error(message); }
+	public void debug(String message) { core.debug(message); }
+	public void fatal(String message) { core.fatal(message); }
+	
 }

@@ -32,22 +32,25 @@
  * 
  */
 
-package re.fallenempi.tfe_core.event;
+package re.fallenempi.tfe_core.util.log;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import re.fallenempi.tfe_core.Core;
-
-public class ChatEvent extends Event {
+public abstract class Log {
 	
-	Core TFE;
+	Logger logger;
 	
-	public ChatEvent(Core TFE) {
-		this.TFE = TFE;
+	public Log(String logName) {
+		logName = logName.substring(0, 1).toUpperCase() + logName.substring(1);
+		logger = LogManager.getLogger(logName);
 	}
 	
-	public void execute() {
-		TFE.log.chat.info(data.get("message").textValue());
-		TFE.server.get().getBroadcastOperations().sendEvent("chat", data);
-	}
+	public void info(String message) { logger.log(Level.INFO, message); }
+	public void warn(String message) { logger.log(Level.WARN, message); }
+	public void error(String message) { logger.log(Level.ERROR, message); }
+	public void debug(String message) { logger.log(Level.DEBUG, message); }
+	public void fatal(String message) { logger.log(Level.FATAL, message); }
 
 }
