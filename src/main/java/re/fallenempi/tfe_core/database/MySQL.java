@@ -97,11 +97,11 @@ public class MySQL {
 			
 			TFE.MYSQL = true;
 			//Log: Successfully established a connection
-			System.out.println("Connected to db");
+			TFE.log.info("Connected to db");
 		} catch(Exception ex) {
 			TFE.MYSQL = false;
 			//Log: Could not connect
-			System.out.println("Could not connect to db");
+			TFE.log.error("Could not connect to db");
 			ex.printStackTrace();
 		}
 	}

@@ -37,11 +37,22 @@ package re.fallenempi.tfe_core.event;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 
+import re.fallenempi.tfe_core.Core;
+
 public class DisconnectEvent implements DisconnectListener {
 
+	Core TFE;
+	
+	public DisconnectEvent(Core TFE) {
+		this.TFE = TFE;
+	}
+	
 	@Override
 	public void onDisconnect(SocketIOClient client) {
-		System.out.println("Dropped connection: "+ client.getSessionId() +" "+ client.getRemoteAddress());
+		String logMessage = "Dropped connection > "+ client.getSessionId();
+
+		TFE.log.info(logMessage);
+		TFE.log.socket.info(logMessage);
 	}
 
 }

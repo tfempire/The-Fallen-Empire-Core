@@ -37,6 +37,7 @@ package re.fallenempi.tfe_core.util;
 import re.fallenempi.tfe_core.Core;
 import re.fallenempi.tfe_core.util.log.ChatLog;
 import re.fallenempi.tfe_core.util.log.CoreLog;
+import re.fallenempi.tfe_core.util.log.SocketLog;
 
 public class LogUtil {
 
@@ -44,16 +45,16 @@ public class LogUtil {
 	
 	public CoreLog core;
 	public ChatLog chat;
+	public SocketLog socket;
 	
 	public LogUtil() {
 		core = new CoreLog(TFE);
 		chat = new ChatLog(TFE);
-
-		info("Test info log.");
-		warn("Test warn log.");
-		error("Test error log.");
-		debug("Test debug log.");
-		fatal("Test fatal log.");
+		socket = new SocketLog(TFE);
+	}
+	
+	public void emptyLine() {
+		System.out.println("");
 	}
 	
 	public void info(String message) { core.info(message); }

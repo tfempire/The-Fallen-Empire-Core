@@ -52,14 +52,18 @@ public class InputReader implements Runnable {
 		this.IP = new InputProcessor(TFE);
 	}
 	
-	public void start() {
+	public void start() {		
 		if(thread != null) return;
 
+		TFE.log.info("Starting command line input reader ..");
+		
 		thread = new Thread(this);
 		thread.start();
 	}
 	
 	public void stop() {
+		TFE.log.info("Stopping command line input reader ..");
+		
 		thread.interrupt();
 		
 		listening = false;

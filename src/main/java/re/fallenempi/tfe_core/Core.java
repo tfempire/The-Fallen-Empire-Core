@@ -56,13 +56,17 @@ public class Core {
 	
 	public Core() {
 		log = new LogUtil();
+		
+		log.info("Starting ..");
+		log.info("Initializing logging util(s) ..");
+		
 		config = new Config(this);
 		DB = new MySQL(this);
 		
-		DEBUG = config.getBool("Debug");
-		
 		IR = new InputReader(this);
 		server = new Server(this);
+		
+		DEBUG = config.getBool("Debug");
 		
 		initMySQL();
 		
@@ -71,8 +75,13 @@ public class Core {
 	}
 	
 	public void quit() {
+		log.emptyLine();
+		log.info("Stopping ..");
+		
 		IR.stop();
 		server.stop();
+		
+		log.info("The Fallen Empire Core stopped.");
 		
 		System.exit(0);
 	}

@@ -52,8 +52,14 @@ public class Server implements Runnable {
 	static Thread thread;
 	private SocketIOServer server = null;
 	
+	private String host = "localhost";
+	private Integer port = 8080;
+	
 	public Server(Core TFE) {
 		this.TFE = TFE;
+		
+		host = TFE.config.get("Socket server > host");
+		port = TFE.config.getInt("Socket server > port");
 	}
 	
 	public void start() {
@@ -64,8 +70,13 @@ public class Server implements Runnable {
 	}
 
 	public void stop() {
+		TFE.log.info("Stopping Socket.IO server ..");
+		TFE.log.socket.info("Stopping Socket.IO server ..");
+		
 		server.stop();
 		thread.interrupt();
+		
+		TFE.log.socket.info("Stopped Socket.IO server.");
 		
 		thread = null;
 	}
@@ -76,19 +87,26 @@ public class Server implements Runnable {
 		sconfig.setReuseAddress(true);
 		
 		Configuration config = new Configuration();
-		config.setHostname("localhost");
-		config.setPort(8080);
+		config.setHostname(host);
+		config.setPort(port);
 		config.setSocketConfig(sconfig);
 		
 		server = new SocketIOServer(config);
 		
-		server.addConnectListener(new ConnectEvent());
-		server.addDisconnectListener(new DisconnectEvent());
+		server.addConnectListener(new ConnectEvent(TFE));
+		server.addDisconnectListener(new DisconnectEvent(TFE));
 		
 		server.addEventListener("authenticate", JsonNode.class, new AuthenticateEvent(TFE));
 		server.addEventListener("chat", JsonNode.class, new ChatEvent(TFE));
 		
-        server.start();		
+		TFE.log.info("Starting Socket.IO server on "+ host +":"+ port +" ..");
+		TFE.log.socket.info("Starting Socket.IO server on "+ host +":"+ port +" ..");
+		
+        server.start();	
+        
+        TFE.log.socket.info("Started Socket.IO server.");
+        TFE.log.info("The Fallen Empire Core is now fully started.");
+        TFE.log.emptyLine();
 	}
 	
 	public SocketIOServer get() {

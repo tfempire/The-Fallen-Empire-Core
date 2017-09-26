@@ -37,11 +37,22 @@ package re.fallenempi.tfe_core.event;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 
+import re.fallenempi.tfe_core.Core;
+
 public class ConnectEvent implements ConnectListener {
 
+	Core TFE;
+	
+	public ConnectEvent(Core TFE) {
+		this.TFE = TFE;
+	}
+	
 	@Override
 	public void onConnect(SocketIOClient client) {
-		System.out.println("New connection: "+ client.getSessionId() +" "+ client.getRemoteAddress());
+		String logMessage = "New connection > "+ client.getSessionId() +" on "+ client.getRemoteAddress();
+
+		TFE.log.info(logMessage);
+		TFE.log.socket.info(logMessage);
 	}
 
 }

@@ -45,7 +45,7 @@ public class InputProcessor {
 	}
 	
 	public void process(String input) {
-		if(TFE.DEBUG) System.out.println("Input: "+ input);
+		if(TFE.DEBUG) TFE.log.debug("New input > "+ input);
 		
 		switch(input.toLowerCase()) {
 		
