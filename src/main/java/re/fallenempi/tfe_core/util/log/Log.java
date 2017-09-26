@@ -41,10 +41,11 @@ import org.apache.logging.log4j.Logger;
 public abstract class Log {
 	
 	Logger logger;
+	String logName;
 	
 	public Log(String logName) {
-		logName = logName.substring(0, 1).toUpperCase() + logName.substring(1);
-		logger = LogManager.getLogger(logName);
+		this.logName = logName.substring(0, 1).toUpperCase() + logName.substring(1);
+		logger = LogManager.getLogger(this.logName);
 	}
 	
 	public void info(String message) { logger.log(Level.INFO, message); }
