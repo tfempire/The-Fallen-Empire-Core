@@ -4,9 +4,33 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%d{HH:mm:ss} %level] %logger{0} :: %msg%n"/>
         </Console>
-
-        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger{1}]: %replace{%msg}{(?i)\u00A7[0-9A-FK-OR]}{}%n"/>
+        
+        <RollingRandomAccessFile name="FileCore" fileName="logs/latest_core.log" filePattern="logs/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}_core-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level] %logger{0} :: %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+        
+        <RollingRandomAccessFile name="FileChat" fileName="logs/latest_chat.log" filePattern="logs/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}_chat-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level] %logger{0} :: %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>        
+        
+        <RollingRandomAccessFile name="FileSocket" fileName="logs/latest_socket.log" filePattern="logs/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}_socket-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level] %logger{0} :: %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+        
+        <RollingRandomAccessFile name="FileMisc" fileName="logs/latest_misc.log" filePattern="logs/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}_misc-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level] %logger{0} :: %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <OnStartupTriggeringPolicy/>
@@ -15,24 +39,33 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="tfe.core" level="all" additivity="false">
+        <Logger name="Core" level="all" additivity="false">
             <AppenderRef ref="Console" level="debug"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="FileCore"/>
+        </Logger>
+        
+        <Logger name="Chat" level="all" additivity="false">
+            <AppenderRef ref="Console" level="debug"/>
+            <AppenderRef ref="FileChat"/>
+        </Logger>
+        
+        <Logger name="Socket" level="all" additivity="false">
+            <AppenderRef ref="FileSocket"/>
         </Logger>
 
         <Logger name="com.zaxxer.hikari" level="info" additivity="false">
             <AppenderRef ref="Console" level="warn"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="FileMisc"/>
         </Logger>
         
         <Logger name="com.corundumstudio.socketio" level="info" additivity="false">
             <AppenderRef ref="Console" level="warn"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="FileMisc"/>
         </Logger>
 
         <Root level="debug">
             <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="FileMisc"/>
         </Root>
     </Loggers>
 </Configuration>
