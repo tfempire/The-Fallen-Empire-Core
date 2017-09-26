@@ -39,10 +39,8 @@ import re.fallenempi.tfe_core.Core;
 
 public class ChatEvent extends Event {
 	
-	Core TFE;
-	
 	public ChatEvent(Core TFE) {
-		this.TFE = TFE;
+		super(TFE);
 	}
 	
 	public void execute() {

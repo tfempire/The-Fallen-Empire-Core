@@ -37,14 +37,24 @@ package re.fallenempi.tfe_core.event;
 import re.fallenempi.tfe_core.Core;
 
 public class AuthenticateEvent extends Event {
-	
-	Core TFE;
-	
+
 	public AuthenticateEvent(Core TFE) {
-		this.TFE = TFE;
+		super(TFE);
 	}
 
 	public void execute() {
+		if(!data.has("method")) {
+			sendError("auth_nomethod", "No authentication method was given!");
+			
+			return;
+		}
+		
+		if(!data.has("token")) {
+			sendError("auth_notoken", "No authentication token was given!");
+			
+			return;
+		}
+		
 		System.out.println("Received authentication request: "+ data.get("message").textValue());
 	}
 	

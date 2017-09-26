@@ -39,19 +39,48 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import re.fallenempi.tfe_core.Core;
 
 public abstract class Event implements DataListener<JsonNode> {
 	
+	Core TFE;
+	
+	SocketIOClient client;
+	ObjectMapper mapper;
 	JsonNode data;
 
+	public Event(Core TFE) {
+		this.TFE = TFE;
+	}
+	
 	@Override
 	public void onData(SocketIOClient client, JsonNode data, AckRequest ackSender) throws Exception {
+		this.client = client;
 		this.data = data;
+		
+		TFE.log.socket.in(data);
 		
 		execute();
 	}
 	
 	public abstract void execute();
 	
-	
+	public void sendError(String errCode, String message)  {
+		if(mapper == null) mapper = new ObjectMapper();
+		
+		ObjectNode obj = mapper.createObjectNode();
+		obj.put("errCode", errCode);
+		obj.put("errMsg", message);
+		obj.put("given_data", data.toString());
+		
+		if(data.has("from")) obj.put("to", data.get("from").textValue());
+		
+		TFE.log.socket.out(obj);
+		
+		client.sendEvent("error", obj);
+	}
+ 	
 }
